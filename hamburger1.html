@@ -1,0 +1,282 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Tailwind Dashboard</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for aesthetic purposes */
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .sidebar-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+        }
+
+        /* Ensure smooth transition for the sidebar */
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Set default font */
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background-color: #f7f9fb;
+        }
+
+        /* For the mobile overlay */
+        .sidebar-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-green': '#047857', /* Emerald-700 equivalent */
+                        'secondary-green': '#10b981', /* Emerald-500 equivalent */
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="flex flex-col lg:flex-row">
+
+    <!-- Mobile Overlay for when the sidebar is open -->
+    <div id="sidebar-overlay" class="lg:hidden fixed inset-0 z-30 hidden sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- 1. Sidebar (Menu Slide Bar) -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-primary-green transform -translate-x-full lg:translate-x-0 lg:static lg:block shadow-2xl sidebar-scroll overflow-y-auto">
+        
+        <!-- Logo/Title Area -->
+        <div class="p-6 bg-emerald-800 text-white shadow-lg">
+            <h1 class="text-2xl font-extrabold tracking-wider">
+                <span class="bg-white text-primary-green px-2 py-0.5 rounded-md mr-1">Dash</span>Board
+            </h1>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="mt-8 space-y-2 p-4">
+            <a href="#" class="flex items-center space-x-3 p-3 text-white rounded-lg hover:bg-emerald-600 transition duration-150 ease-in-out group active-link">
+                <!-- Icon: Dashboard -->
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6m-3 0v-4"></path></svg>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 p-3 text-white rounded-lg hover:bg-emerald-600 transition duration-150 ease-in-out group">
+                <!-- Icon: Users -->
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20v-2c0-.374-.15-.733-.42-1m3.65-3.65l-1.63-1.63M18.65 9.35l-1.63 1.63M16 11a4 4 0 11-8 0 4 4 0 018 0zM12 2a4 4 0 00-4 4v2a4 4 0 004 4h0a4 4 0 004-4V6a4 4 0 00-4-4z"></path></svg>
+                <span class="font-medium">User Management</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 p-3 text-white rounded-lg hover:bg-emerald-600 transition duration-150 ease-in-out group">
+                <!-- Icon: Reports -->
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0h6m-6 0v-6a2 2 0 012-2h2a2 2 0 012 2v6m-4 0h6m-6 0v-6m0 0H9m11 0a2 2 0 00-2-2h-2a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2v-6z"></path></svg>
+                <span class="font-medium">Analytics & Reports</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 p-3 text-white rounded-lg hover:bg-emerald-600 transition duration-150 ease-in-out group">
+                <!-- Icon: Settings -->
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.82 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.82 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.82-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.82-3.31 2.37-2.37.996.608 2.296.345 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="font-medium">Settings</span>
+            </a>
+        </nav>
+        
+        <!-- Bottom Section -->
+        <div class="absolute bottom-0 w-full p-4 border-t border-emerald-600">
+            <a href="#" class="flex items-center space-x-3 p-3 text-white rounded-lg hover:bg-emerald-600 transition duration-150 ease-in-out">
+                <!-- Icon: Logout -->
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3v-4a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                <span class="font-medium">Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- 2. Main Content Area -->
+    <main id="main-content" class="flex-1 min-h-screen p-4 sm:p-8 transition-all duration-300">
+        
+        <!-- Top Bar/Header (Mobile & Desktop) -->
+        <header class="flex justify-between items-center bg-white p-4 rounded-xl shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800">Welcome Back!</h2>
+            
+            <!-- Hamburger Menu Button (Visible on small screens) -->
+            <button id="menu-button" class="lg:hidden p-2 text-primary-green hover:bg-gray-100 rounded-lg focus:outline-none" onclick="toggleSidebar()">
+                <!-- Hamburger Icon -->
+                <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+                <!-- Close Icon (Initially hidden) -->
+                <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <div class="hidden lg:flex items-center space-x-4">
+                <input type="text" placeholder="Search..." class="p-2 border border-gray-300 rounded-lg focus:ring-secondary-green focus:border-secondary-green transition duration-150">
+                <img class="h-10 w-10 rounded-full object-cover shadow-md" 
+                     src="https://placehold.co/100x100/10b981/ffffff?text=U" 
+                     alt="User Avatar"
+                     onerror="this.onerror=null; this.src='https://placehold.co/100x100/10b981/ffffff?text=User'">
+            </div>
+        </header>
+
+        <!-- Main Dashboard Content Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- Card 1 -->
+            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col justify-between transition-transform hover:scale-[1.02] duration-300">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-sm font-medium text-gray-500">Total Revenue</p>
+                    <div class="text-secondary-green bg-green-100 p-2 rounded-full">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V9m0 3v1m0 3v1"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m0 0h10"></path></svg>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-gray-900">$45,230</p>
+                <p class="text-sm text-green-500 mt-2">+12.9% this month</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col justify-between transition-transform hover:scale-[1.02] duration-300">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-sm font-medium text-gray-500">New Customers</p>
+                    <div class="text-blue-500 bg-blue-100 p-2 rounded-full">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 01-4 4"></path></svg>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-gray-900">2,420</p>
+                <p class="text-sm text-red-500 mt-2">-1.5% from last week</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col justify-between transition-transform hover:scale-[1.02] duration-300">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-sm font-medium text-gray-500">Pending Orders</p>
+                    <div class="text-yellow-600 bg-yellow-100 p-2 rounded-full">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-gray-900">18</p>
+                <p class="text-sm text-gray-500 mt-2">Needs immediate attention</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col justify-between transition-transform hover:scale-[1.02] duration-300">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-sm font-medium text-gray-500">Conversion Rate</p>
+                    <div class="text-pink-500 bg-pink-100 p-2 rounded-full">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8m3-2a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-gray-900">2.45%</p>
+                <p class="text-sm text-green-500 mt-2">+0.25% increase</p>
+            </div>
+        </section>
+
+        <!-- Placeholder for larger content areas -->
+        <section class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Chart/Activity Feed -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Sales Overview (Chart Placeholder)</h3>
+                <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center text-gray-400 border border-dashed border-gray-300">
+                    Monthly Sales Graph Area
+                </div>
+            </div>
+
+            <!-- Quick Actions/Recent Activity -->
+            <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-lg">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Recent Activity</h3>
+                <ul class="space-y-3">
+                    <li class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                        <span class="font-medium text-primary-green">Order #9021</span> processed.
+                    </li>
+                    <li class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                        <span class="font-medium text-blue-600">User John D.</span> registered.
+                    </li>
+                    <li class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                        <span class="font-medium text-yellow-600">System Backup</span> completed.
+                    </li>
+                    <li class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                        <span class="font-medium text-red-600">Critical Alert</span>: Disk space low.
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Footer for Mobile View Spacing -->
+        <footer class="mt-12 text-center text-sm text-gray-500 p-4">
+            &copy; 2024 Dashboard Design. All rights reserved.
+        </footer>
+    </main>
+
+    <!-- JavaScript for Sidebar Toggle -->
+    <script>
+        // State variable to track if the sidebar is open on mobile
+        let isSidebarOpen = false;
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const menuOpenIcon = document.getElementById('menu-icon-open');
+            const menuCloseIcon = document.getElementById('menu-icon-close');
+
+            isSidebarOpen = !isSidebarOpen;
+
+            if (isSidebarOpen) {
+                // Show Sidebar
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                
+                // Show Overlay
+                overlay.classList.remove('hidden');
+
+                // Swap Icons
+                menuOpenIcon.classList.add('hidden');
+                menuCloseIcon.classList.remove('hidden');
+            } else {
+                // Hide Sidebar
+                sidebar.classList.remove('translate-x-0');
+                sidebar.classList.add('-translate-x-full');
+                
+                // Hide Overlay
+                overlay.classList.add('hidden');
+
+                // Swap Icons
+                menuOpenIcon.classList.remove('hidden');
+                menuCloseIcon.classList.add('hidden');
+            }
+        }
+
+        // Add a listener to close the sidebar if the screen size increases
+        window.addEventListener('resize', () => {
+            const viewportWidth = window.innerWidth;
+            const largeScreenBreakpoint = 1024; // Tailwind's 'lg' breakpoint
+
+            if (viewportWidth >= largeScreenBreakpoint) {
+                // If the screen is large, ensure mobile state is reset
+                isSidebarOpen = false;
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebar-overlay');
+                
+                // Ensure no mobile translation class remains if on desktop
+                sidebar.classList.remove('-translate-x-full', 'translate-x-0');
+                overlay.classList.add('hidden');
+                
+                const menuOpenIcon = document.getElementById('menu-icon-open');
+                const menuCloseIcon = document.getElementById('menu-icon-close');
+                menuOpenIcon.classList.remove('hidden');
+                menuCloseIcon.classList.add('hidden');
+            }
+        });
+
+    </script>
+</body>
+</html>

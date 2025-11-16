@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Tailwind Dashboard</title>
+
+    <!-- Tailwind + DaisyUI CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- MOBILE NAVBAR -->
+    <div class="lg:hidden flex items-center px-4 py-3 bg-white shadow">
+        <button id="menuBtn" class="btn btn-ghost btn-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+        </button>
+        <h1 class="text-xl font-bold ml-2">Dashboard</h1>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div id="sidebar"
+        class="fixed top-0 left-0 h-full w-64 bg-white shadow transform -translate-x-full lg:translate-x-0 transition-all duration-300 z-50">
+
+        <div class="p-4 text-2xl font-bold border-b">Menu</div>
+
+        <ul class="menu p-4">
+            <li><a>🏠 Home</a></li>
+            <li><a>📊 Analytics</a></li>
+            <li><a>📁 Reports</a></li>
+            <li><a>⚙ Settings</a></li>
+        </ul>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="lg:ml-64 p-6 transition-all">
+
+        <h1 class="text-3xl font-bold mb-6">Responsive Dashboard</h1>
+
+        <!-- Widgets Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div class="card bg-white shadow p-4">
+                <h2 class="font-bold text-lg mb-2">Widget 1</h2>
+                <p>This is a responsive dashboard widget.</p>
+            </div>
+
+            <div class="card bg-white shadow p-4">
+                <h2 class="font-bold text-lg mb-2">Widget 2</h2>
+                <p>Using Tailwind utilities for layout.</p>
+            </div>
+
+            <div class="card bg-white shadow p-4">
+                <h2 class="font-bold text-lg mb-2">Widget 3</h2>
+                <p>Fully responsive with collapsible sidebar.</p>
+            </div>
+
+            <div class="card bg-white shadow p-4">
+                <h2 class="font-bold text-lg mb-2">Widget 4</h2>
+                <p>Mobile-first dashboard.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT (Hamburger Toggle) -->
+    <script>
+        const menuBtn = document.getElementById("menuBtn");
+        const sidebar = document.getElementById("sidebar");
+
+        menuBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("-translate-x-full");
+        });
+    </script>
+
+</body>
+</html>
